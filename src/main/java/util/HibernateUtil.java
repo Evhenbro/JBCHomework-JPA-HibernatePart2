@@ -1,4 +1,4 @@
-package hibernateUtil;
+package util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,8 +10,13 @@ public class HibernateUtil {
 
 
     static {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-        session = sessionFactory.openSession();
+        try {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+            session = sessionFactory.openSession();
+        } catch (Throwable e) {
+        System.err.println("Initial SessionFactory creation failed" + e);
+        throw new ExceptionInInitializerError(e);
+        }
     }
 
     public static SessionFactory getSessionFactory() {
